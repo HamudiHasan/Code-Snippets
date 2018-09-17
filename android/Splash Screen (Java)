@@ -1,0 +1,7 @@
+new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this, "This toast will Appear after 200 millis", Toast.LENGTH_SHORT).show();
+                splash();
+            }
+        }, 200);
