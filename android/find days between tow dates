@@ -1,0 +1,13 @@
+    public long dayBetween(String date1,String date2,String pattern)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.ENGLISH);
+        Date Date1 = null,Date2 = null;
+        try{
+            Date1 = sdf.parse(date1);
+            Date2 = sdf.parse(date2);
+        }catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return (Date2.getTime() - Date1.getTime())/(24*60*60*1000);
+    }
