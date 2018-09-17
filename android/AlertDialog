@@ -1,0 +1,29 @@
+// default dialog with custom TextView (font , size etc.)
+    public static void defaultDialog(Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage("defaultDialog");
+        builder.setCancelable(true);
+
+        builder.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                    }
+                });
+
+        builder.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+        // with custom TextView
+        TextView textView = alertDialog.findViewById(android.R.id.message);
+        textView.setTextSize(30);
+    }
