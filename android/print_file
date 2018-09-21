@@ -1,0 +1,76 @@
+
+// Get a PrintManager instance
+PrintManager printManager = (PrintManager) getSystemService(Context.PRINT_SERVICE);
+// Set job name, which will be displayed in the print queue
+String jobName = getString(R.string.app_name) + " Document";
+// Start a print job, passing in a PrintDocumentAdapter implementation
+// to handle the generation of a print document
+printManager.print(jobName, new PdfDocumentAdapter(MainActivity.this, file.getPath()), null);
+            
+// Use this Print Document Adapter
+public class PdfDocumentAdapter extends PrintDocumentAdapter {
+
+    Context context = null;
+    String pathName = "";
+    public PdfDocumentAdapter(Context ctxt, String pathName) {
+        context = ctxt;
+        this.pathName = pathName;
+    }
+    @TargetApi(Build.VERSION_CODES.KITKAT)
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+
+    public void onLayout(PrintAttributes printAttributes, PrintAttributes printAttributes1, CancellationSignal cancellationSignal, 
+                         PrintDocumentAdapter.LayoutResultCallback layoutResultCallback, Bundle bundle) {
+        if (cancellationSignal.isCanceled()) {
+            layoutResultCallback.onLayoutCancelled();
+        }
+        else {
+            PrintDocumentInfo.Builder builder=
+                    new PrintDocumentInfo.Builder(" file name");
+            builder.setContentType(PrintDocumentInfo.CONTENT_TYPE_DOCUMENT)
+                    .setPageCount(PrintDocumentInfo.PAGE_COUNT_UNKNOWN)
+                    .build();
+            layoutResultCallback.onLayoutFinished(builder.build(),
+                    !printAttributes1.equals(printAttributes));
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+
+    public void onWrite(PageRange[] pageRanges, ParcelFileDescriptor parcelFileDescriptor, CancellationSignal cancellationSignal, PrintDocumentAdapter.WriteResultCallback writeResultCallback) {
+        InputStream in=null;
+        OutputStream out=null;
+        try {
+            File file = new File(pathName);
+            in = new FileInputStream(file);
+            out=new FileOutputStream(parcelFileDescriptor.getFileDescriptor());
+
+            byte[] buf=new byte[16384];
+            int size;
+
+            while ((size=in.read(buf)) >= 0
+                    && !cancellationSignal.isCanceled()) {
+                out.write(buf, 0, size);
+            }
+
+            if (cancellationSignal.isCanceled()) {
+                writeResultCallback.onWriteCancelled();
+            }
+            else {
+                writeResultCallback.onWriteFinished(new PageRange[] { PageRange.ALL_PAGES });
+            }
+        }
+        catch (Exception e) {
+            writeResultCallback.onWriteFailed(e.getMessage());
+        }
+        finally {
+            try {
+                in.close();
+                out.close();
+            }
+            catch (IOException e) {
+                
+            }
+        }
+    }
+}
