@@ -1,0 +1,6 @@
+FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
+SectionDescriptionFragment bdf = new SectionDescriptionFragment();
+ft.replace(R.id.book_description_fragment, bdf);
+ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+ft.addToBackStack(null);
+ft.commit();
