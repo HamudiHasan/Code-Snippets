@@ -1,0 +1,34 @@
+private void animationCardIn(View view){
+        int transDistancePx = 30;
+        int transDistance = ((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, transDistancePx, context.getResources().getDisplayMetrics()));
+        int start = 50;
+        int duration = 500;
+
+        TranslateAnimation animTranslate1 = new TranslateAnimation( 0, 0 , 0, transDistance );
+        animTranslate1.setDuration(10);
+        animTranslate1.setStartOffset(0);
+        animTranslate1.setFillAfter(true);
+
+        AlphaAnimation animAlpha = new AlphaAnimation(0.5f, 1.0f);
+        animAlpha.setDuration(duration);
+        animAlpha.setStartOffset(start);
+        animAlpha.setFillAfter(true);
+
+        TranslateAnimation animTranslate2 = new TranslateAnimation( 0, 0 , 0, (transDistance*-1) );
+        animTranslate2.setDuration(duration);
+        animTranslate2.setStartOffset(start);
+        animTranslate2.setFillAfter(true);
+
+        ScaleAnimation animScale1 = new ScaleAnimation(0.93f, 1f, 0.93f, 1f, Animation.RELATIVE_TO_SELF, (float)0.5, Animation.RELATIVE_TO_SELF, (float)0.5);
+        animScale1.setDuration(duration);
+        animScale1.setStartOffset(start);
+        animScale1.setFillAfter(true);
+
+        AnimationSet animSet = new AnimationSet(false);
+        animSet.addAnimation(animTranslate1);
+        animSet.addAnimation(animAlpha);
+        animSet.addAnimation(animTranslate2);
+        animSet.addAnimation(animScale1);
+
+        view.startAnimation(animSet);
+    }
