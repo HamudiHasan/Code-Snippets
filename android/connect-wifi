@@ -1,0 +1,7 @@
+C:\Users\hhson\AppData\Local\Android\sdk
+
+
+cd C:\Users\hhson\AppData\Local\Android\sdk/platfrom-tools
+
+adb tcpip 5555
+adb connect IP 
