@@ -1,0 +1,26 @@
+
+//access file
+var file_name = $("#file_id").prop('files')[0];
+
+    var form_data = new FormData();
+    
+    form_data.append('file_name', file);
+    form_data.append('name', value);
+             
+    $.ajax({
+            
+        url: "www.yoururl.com",
+        type: "post",
+        
+        data: form_data,
+        processData:false,
+        contentType:false,
+        cache:false,
+        async:false,
+       
+       
+        success: function(data){
+             
+             location.reload();
+        }
+    });
