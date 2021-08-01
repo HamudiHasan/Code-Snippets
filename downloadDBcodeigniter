@@ -1,0 +1,14 @@
+    function createcsv(){
+        $this->load->dbutil();
+        $this->load->helper('file');
+        $this->load->helper('download');
+        $delimiter = ",";
+        $newline = "\r\n";
+        $filename = "filename.csv";
+        $query = "SELECT * FROM info"; //USE HERE YOUR QUERY
+        $result = $this->db->query($query);
+        $data = $this->dbutil->csv_from_result($result, $delimiter, $newline);
+        force_download($filename, $data);
+
+    }
+    
